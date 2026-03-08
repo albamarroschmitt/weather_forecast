@@ -1,9 +1,27 @@
 function updateWeather(response) {
   let temperature = Math.round(response.data.temperature.current);
+
   let temperatureElement = document.querySelector(
     "#weather-current-temperature",
   );
+  let cityElement = document.querySelector("#weather-city");
+  let iconElement = document.querySelector("#weather-icon");
   temperatureElement.innerHTML = temperature;
+  cityElement.innerHTML = response.data.city;
+
+  let description = response.data.condition.description;
+
+  if (description.includes("rain")) {
+    iconElement.innerHTML = "🌧️";
+  } else if (description.includes("cloud")) {
+    iconElement.innerHTML = "☁️";
+  } else if (description.includes("snow")) {
+    iconElement.innerHTML = "❄️";
+  } else if (description.includes("clear")) {
+    iconElement.innerHTML = "☀️";
+  } else {
+    iconElement.innerHTML = "🌤️";
+  }
 }
 
 function searchCity(cityName) {
@@ -19,13 +37,8 @@ function searchSubmit(event) {
   event.preventDefault();
 
   let searchInputCity = document.querySelector("#city");
-  let cityElement = document.querySelector("#weather-city");
-
-  cityElement.innerHTML = searchInputCity.value;
   searchCity(searchInputCity.value);
 }
 
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", searchSubmit);
-
-searchCity("Barcelona");
