@@ -5,12 +5,12 @@ function updateWeather(response) {
     "#weather-current-temperature",
   );
   let cityElement = document.querySelector("#weather-city");
-  let iconElement = document.querySelector("#weather-icon");
   let descriptionElement = document.querySelector("#weather-description");
   let humidityElement = document.querySelector("#humidity");
   let speedElement = document.querySelector("#speed");
   let timeElement = document.querySelector("#time");
   let date = new Date(response.data.time * 1000);
+  let iconElement = document.querySelector("#weather-icon");
 
   temperatureElement.innerHTML = temperature;
   cityElement.innerHTML = response.data.city;
@@ -18,20 +18,11 @@ function updateWeather(response) {
   humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
   speedElement.innerHTML = `${response.data.wind.speed}km/h`;
   timeElement.innerHTML = formatDate(date);
+  iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
 
   let description = response.data.condition.description;
-
-  if (description.includes("rain")) {
-    iconElement.innerHTML = "🌧️";
-  } else if (description.includes("cloud")) {
-    iconElement.innerHTML = "☁️";
-  } else if (description.includes("snow")) {
-    iconElement.innerHTML = "❄️";
-  } else if (description.includes("clear")) {
-    iconElement.innerHTML = "☀️";
-  } else {
-    iconElement.innerHTML = "🌤️";
-  }
+  iconElement.src = response.data.condition.icon_url;
+  iconElement.alt = response.data.condition.description;
 }
 
 function formatDate(date) {
